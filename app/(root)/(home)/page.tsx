@@ -18,7 +18,7 @@ const questions = [
     author: {
       _id: "1",
       name: "John Doe",
-      picture: "url_to_johns_picture.jpg"
+      picture: "url_to_johns_picture.jpg",
     },
     upvotes: 10,
     views: 100,
@@ -35,15 +35,14 @@ const questions = [
     author: {
       _id: "2",
       name: "Jane Doe",
-      picture: "url_to_janes_picture.jpg"
+      picture: "url_to_janes_picture.jpg",
     },
     upvotes: 5000000,
     views: 120006,
     answers: [],
     createdAt: new Date("2021-09-02T10:00:00.000Z"),
-  }
+  },
 ];
-
 
 export default function Home() {
   return (
