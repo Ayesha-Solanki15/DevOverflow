@@ -5,46 +5,48 @@ import Filter from "@/components/shared/filter/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getQuestions } from "@/lib/actions/question.action";
 import Link from "next/link";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How do I use express as a custom server in Next.js",
-    tags: [
-      { _id: "1", name: "express" },
-      { _id: "2", name: "server" },
-    ],
-    author: {
-      _id: "1",
-      name: "John Doe",
-      picture: "url_to_johns_picture.jpg",
-    },
-    upvotes: 10,
-    views: 100,
-    answers: [],
-    createdAt: new Date("2021-09-01T12:00:00.000Z"),
-  },
-  {
-    _id: "2",
-    title: "Cascading Deletes in SQLAlchemy",
-    tags: [
-      { _id: "3", name: "sql" },
-      { _id: "4", name: "python" },
-    ],
-    author: {
-      _id: "2",
-      name: "Jane Doe",
-      picture: "url_to_janes_picture.jpg",
-    },
-    upvotes: 5000000,
-    views: 120006,
-    answers: [],
-    createdAt: new Date("2021-09-02T10:00:00.000Z"),
-  },
-];
+// const questions = [
+//   {
+//     _id: "1",
+//     title: "How do I use express as a custom server in Next.js",
+//     tags: [
+//       { _id: "1", name: "express" },
+//       { _id: "2", name: "server" },
+//     ],
+//     author: {
+//       _id: "1",
+//       name: "John Doe",
+//       picture: "url_to_johns_picture.jpg",
+//     },
+//     upvotes: 10,
+//     views: 100,
+//     answers: [],
+//     createdAt: new Date("2021-09-01T12:00:00.000Z"),
+//   },
+//   {
+//     _id: "2",
+//     title: "Cascading Deletes in SQLAlchemy",
+//     tags: [
+//       { _id: "3", name: "sql" },
+//       { _id: "4", name: "python" },
+//     ],
+//     author: {
+//       _id: "2",
+//       name: "Jane Doe",
+//       picture: "url_to_janes_picture.jpg",
+//     },
+//     upvotes: 5000000,
+//     views: 120006,
+//     answers: [],
+//     createdAt: new Date("2021-09-02T10:00:00.000Z"),
+//   },
+// ];
 
-export default function Home() {
+export default async function Home() {
+  const result = await getQuestions({})
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between sm:flex-row sm:items-center">
@@ -72,8 +74,8 @@ export default function Home() {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((question) => (
+        {result.questions.length > 0 ? (
+          result.questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
