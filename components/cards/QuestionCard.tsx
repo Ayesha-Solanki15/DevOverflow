@@ -58,7 +58,8 @@ const QuestionCard = ({
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
         <div className="flex-start flex-wrap gap-3">
           <Metric
-            imgUrl="/assets/icons/avatar.svg"
+            imgUrl={author.picture}
+            // adding the image provided by clerk leads us to adding another domain in next.config.js
             alt="user"
             value={author.name}
             title={` - asked ${getTimestamp(createdAt)}`}
@@ -67,7 +68,7 @@ const QuestionCard = ({
             textStyles="body-medium text-dark400_light700"
           />
         </div>
-        <div className="flex-end flex-wrap gap-3">
+        <div className="flex-start flex-wrap gap-3">
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="Upvotes"

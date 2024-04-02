@@ -1,3 +1,5 @@
+import { hostname } from 'os';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
@@ -5,6 +7,19 @@ const nextConfig = {
     mdxRs: true,
     serverComponentsExternalPackages: ["mongoose"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*'
+      },
+      {
+        protocol: 'http',
+        hostname: '*'
+      }
+      
+    ]
+  }
 };
 
 export default nextConfig;
