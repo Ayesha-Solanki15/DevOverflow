@@ -15,6 +15,7 @@ export async function getUserById(params: any) {
     connectToDatabase();
     const { userId } = params;
     const user = await User.findOne({ clerkId: userId });
+    console.log(user);
     return user;
   } catch (error) {
     console.log(error);
@@ -66,7 +67,7 @@ export async function deleteUser(params: DeleteUserParams) {
       "_id"
     );
 
-      // delete user questions
+    // delete user questions
     await Question.deleteMany({ author: user._id });
 
     // TODO: delete user answers, comments, etc.
@@ -74,7 +75,6 @@ export async function deleteUser(params: DeleteUserParams) {
     const deletedUser = await User.findByIdAndDelete(user._id);
 
     return deletedUser;
-
   } catch (error) {
     console.log(error);
     throw error;

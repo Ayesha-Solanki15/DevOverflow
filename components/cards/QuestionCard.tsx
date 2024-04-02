@@ -4,7 +4,6 @@ import RenderTag from "../shared/Tags/RenderTag";
 import Metric from "../shared/Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 
-
 interface Props {
   _id: string;
   title: string;
@@ -18,6 +17,7 @@ interface Props {
     picture: string;
   };
   upvotes: number;
+  downvotes: number;
   views: number;
   answers: Array<object>;
   createdAt: Date;
@@ -29,6 +29,7 @@ const QuestionCard = ({
   tags,
   author,
   upvotes,
+  downvotes,
   views,
   answers,
   createdAt,
@@ -55,36 +56,41 @@ const QuestionCard = ({
       </div>
 
       <div className="flex-between mt-6 w-full flex-wrap gap-3">
-        <Metric
-          imgUrl='/assets/icons/avatar.svg'
-          alt="user"
-          value={author.name}
-          title={` - asked ${getTimestamp(createdAt)}`}
-          href={`/profile/${author._id}`}
-          isAuthor
-          textStyles="body-medium text-dark400_light700"
-        />
-        <Metric
-          imgUrl="/assets/icons/like.svg"
-          alt="Upvotes"
-          value={formatAndDivideNumber(upvotes)}
-          title=" Votes"
-          textStyles="small-medium text-dark400_light800"
-        />
-        <Metric
-          imgUrl="/assets/icons/message.svg"
-          alt="message"
-          value={formatAndDivideNumber(answers.length)}
-          title=" Answers"
-          textStyles="small-medium text-dark400_light800"
-        />
-        <Metric
-          imgUrl="/assets/icons/eye.svg"
-          alt="eye"
-          value={formatAndDivideNumber(views)}
-          title=" Views"
-          textStyles="small-medium text-dark400_light800"
-        />
+        <div className="flex-start flex-wrap gap-3">
+          <Metric
+            imgUrl="/assets/icons/avatar.svg"
+            alt="user"
+            value={author.name}
+            title={` - asked ${getTimestamp(createdAt)}`}
+            href={`/profile/${author._id}`}
+            isAuthor
+            textStyles="body-medium text-dark400_light700"
+          />
+        </div>
+        <div className="flex-end flex-wrap gap-3">
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            alt="Upvotes"
+            value={formatAndDivideNumber(upvotes)}
+            title=" Votes"
+            textStyles="small-medium text-dark400_light800"
+          />
+
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="message"
+            value={formatAndDivideNumber(answers.length)}
+            title=" Answers"
+            textStyles="small-medium text-dark400_light800"
+          />
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="eye"
+            value={formatAndDivideNumber(views)}
+            title=" Views"
+            textStyles="small-medium text-dark400_light800"
+          />
+        </div>
       </div>
     </div>
   );

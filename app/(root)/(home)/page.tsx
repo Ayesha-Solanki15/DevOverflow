@@ -46,7 +46,7 @@ import Link from "next/link";
 // ];
 
 export default async function Home() {
-  const result = await getQuestions({})
+  const {questions} = await getQuestions({})
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between sm:flex-row sm:items-center">
@@ -74,8 +74,8 @@ export default async function Home() {
       <HomeFilters />
 
       <div className="mt-10 flex w-full flex-col gap-6">
-        {result.questions.length > 0 ? (
-          result.questions.map((question) => (
+        {questions.length > 0 ? (
+          questions.map((question) => (
             <QuestionCard
               key={question._id}
               _id={question._id}
@@ -83,6 +83,7 @@ export default async function Home() {
               tags={question.tags}
               author={question.author}
               upvotes={question.upvotes}
+              downvotes={question.downvotes}
               views={question.views}
               answers={question.answers}
               createdAt={question.createdAt}
@@ -93,7 +94,7 @@ export default async function Home() {
             title="There's no question to show"
             description="Be the first to break the silence! 🚀 Ask a Question and kickstart the discussion. Our query could be the next big thing others learn from. Get involved! 💡"
             link="/ask-question"
-            linkTitle="Ak a Question"
+            linkTitle="Ask a Question"
           />
         )}
       </div>
