@@ -1,4 +1,4 @@
-import { Link } from "lucide-react";
+import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import RenderTag from "../Tags/RenderTag";
