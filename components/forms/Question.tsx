@@ -21,6 +21,7 @@ import { Badge } from "../ui/badge";
 import Image from "next/image";
 import { createQuestion } from "@/lib/actions/question.action";
 import { useRouter, usePathname } from "next/navigation";
+import { useTheme } from "@/context/ThemeProvider";
 
 const type: any = "create";
 
@@ -29,6 +30,7 @@ interface Props {
 }
 
 const Question = ({ mongoUserId }: Props) => {
+  const { mode } = useTheme();
   const router = useRouter();
   const pathname = usePathname();
   const editorRef = useRef(null);
@@ -55,7 +57,7 @@ const Question = ({ mongoUserId }: Props) => {
         content: values.explanation,
         tags: values.tags,
         author: JSON.parse(mongoUserId),
-        path: pathname
+        path: pathname,
       });
 
       // navigate to home page
@@ -114,7 +116,10 @@ const Question = ({ mongoUserId }: Props) => {
                 Question Title <span className="text-primary-500">*</span>
               </FormLabel>
               <FormControl className="mt-3.5">
-                <Input className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light900 min-h-[56px] border" {...field}/>
+                <Input
+                  className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light900 min-h-[56px] border"
+                  {...field}
+                />
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Be specific and imagine you&apos;re asking a question to another
@@ -168,6 +173,8 @@ const Question = ({ mongoUserId }: Props) => {
                       "codesample | bold italic forecolor | alignleft aligncenter |" +
                       "alignright alignjustify | bullist numlist  ",
                     content_style: "body { font-family:Inter; font-size:16px }",
+                    skin: mode === "dark" ? "oxide-dark" : "oxide",
+                    content_css: mode === "dark" ? "dark" : "light",
                   }}
                 />
               </FormControl>

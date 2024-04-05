@@ -16,8 +16,8 @@ export interface CreateAnswerParams {
   export interface AnswerVoteParams {
   answerId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasUpvoted: boolean;
+  hasDownvoted: boolean;
   path: string;
   }
   export interface DeleteAnswerParams {
@@ -49,8 +49,8 @@ export interface CreateAnswerParams {
   export interface QuestionVoteParams {
   questionId: string;
   userId: string;
-  hasupVoted: boolean;
-  hasdownVoted: boolean;
+  hasUpvoted: boolean;
+  hasDownvoted: boolean;
   path: string;
   }
   export interface DeleteQuestionParams {
