@@ -2,28 +2,34 @@ import Link from "next/link";
 import Image from "next/image";
 import React from "react";
 import RenderTag from "../Tags/RenderTag";
+import { getHotQuestions } from "@/lib/actions/question.action";
+import { getTopPopularTags } from "@/lib/actions/tag.action";
 
-const hotQuestions = [
-  { _id: '1', title: "How do I use express as a custom server in Next.js" },
-  { _id: '2', title: "Cascading Deletes in SQLAlchemy" },
-  { _id: '3', title: "How to perfectly center a div with Tailwind CSS" },
-  {
-    _id: '4',
-    title:
-      "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)",
-  },
-  { _id: '5', title: "Redux Toolkit not updating State as expected" },
-];
+// const hotQuestions = [
+//   { _id: '1', title: "How do I use express as a custom server in Next.js" },
+//   { _id: '2', title: "Cascading Deletes in SQLAlchemy" },
+//   { _id: '3', title: "How to perfectly center a div with Tailwind CSS" },
+//   {
+//     _id: '4',
+//     title:
+//       "Best practices for data fetching in a Next.js application with Server-Side Rendering (SSR)",
+//   },
+//   { _id: '5', title: "Redux Toolkit not updating State as expected" },
+// ];
 
-const popularTags = [
-  { _id: '1', name: "react", totalQuestions: 5 },
-  { _id: '2', name: "javascript", totalQuestions: 5 },
-  { _id: '3', name: "next", totalQuestions: 5 },
-  { _id: '4', name: "angular", totalQuestions: 5 },
-  { _id: '5', name: "redux", totalQuestions: 5 },
-];
+// const popularTags = [
+//   { _id: "1", name: "react", totalQuestions: 5 },
+//   { _id: "2", name: "javascript", totalQuestions: 5 },
+//   { _id: "3", name: "next", totalQuestions: 5 },
+//   { _id: "4", name: "angular", totalQuestions: 5 },
+//   { _id: "5", name: "redux", totalQuestions: 5 },
+// ];
 
-const RightSidebar = () => {
+const RightSidebar = async () => {
+  const hotQuestions = await getHotQuestions();
+
+  const popularTags = await getTopPopularTags()
+
   return (
     <section className="background-light900_dark200 light-border custom-scrollbar sticky right-0 top-0 flex h-screen w-[350px] flex-col overflow-y-auto border-l p-6 pt-36 shadow-light-300 dark:shadow-none max-xl:hidden max-sm:hidden lg:w-[266px]">
       <div>
@@ -32,7 +38,7 @@ const RightSidebar = () => {
           {hotQuestions.map((question) => (
             <Link
               key={question._id}
-              href={`/questions/${question._id}`}
+              href={`/question/${question._id}`}
               className="flex cursor-pointer items-center justify-between gap-7"
             >
               <p className=" body-medium text-dark500_light700">
@@ -57,7 +63,7 @@ const RightSidebar = () => {
               key={tag._id}
               _id={tag._id}
               name={tag.name}
-              totalQuestions={tag.totalQuestions}
+              totalQuestions={tag.numberOfQuestions}
               showCount
             />
           ))}
