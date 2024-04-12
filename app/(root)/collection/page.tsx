@@ -4,16 +4,18 @@ import Filter from "@/components/shared/filter/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { QuestionFilters } from "@/constants/filters";
 import { getSavedQuestions } from "@/lib/actions/user.action";
+import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 
-export default async function Home() {
+export default async function Home({searchParams}: SearchParamsProps) {
 
   const {userId} = auth()
   if(!userId) {
     return null
   }
   const {questions} = await getSavedQuestions({
-    clerkId: userId
+    clerkId: userId,
+    searchQuery: searchParams.q
   })
   // we are going to fetch the saved questions from user.action.ts because a particular user is saving those questions
   return (
@@ -35,7 +37,7 @@ export default async function Home() {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {questions.length > 0 ? (
-          questions.map((question) => (
+          questions.map((question: any) => (
             <QuestionCard
               key={question._id}
               _id={question._id}

@@ -2,7 +2,7 @@
 
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { FilterQuery } from "mongoose";
+import { FilterQuery, _FilterQuery } from "mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
@@ -97,7 +97,16 @@ export async function getAllUsers(params: GetAllUsersParams) {
 
     // eslint-disable-next-line no-unused-vars
     const { page = 1, pageSize = 20, filter, searchQuery } = params;
-    const users = await User.find({}).sort({ createdAt: -1 });
+    const query: _FilterQuery<typeof User> = {}
+
+    if(searchQuery) {
+      query.$or = [
+        {name: {$regex: new RegExp(searchQuery, "i")}},
+        {username: {$regex: new RegExp(searchQuery, "i")}},
+      ]
+    }
+
+    const users = await User.find({query}).sort({ createdAt: -1 });
 
     return { users };
   } catch (error) {
@@ -140,6 +149,7 @@ export async function toggleSaveQuestion(params: ToggleSaveQuestionParams) {
 export async function getSavedQuestions(params: GetSavedQuestionsParams) {
   try {
     connectToDatabase();
+    // eslint-disable-next-line no-unused-vars
     const { clerkId, page = 1, pageSize = 10, filter, searchQuery } = params;
     const query: FilterQuery<typeof Question> = searchQuery
       ? { title: { $regex: new RegExp(searchQuery, "i") } }
@@ -216,6 +226,7 @@ export async function getUserAnswers(params: GetUserStatsParams) {
   try {
     connectToDatabase();
 
+    // eslint-disable-next-line no-unused-vars
     const { userId, page = 1, pageSize = 10 } = params;
 
     const totalAnswers = await Answer.countDocuments({ author: userId });

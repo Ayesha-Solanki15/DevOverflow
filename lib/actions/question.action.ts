@@ -15,12 +15,24 @@ import User from "@/database/user.model";
 import { revalidatePath } from "next/cache";
 import Answer from "@/database/answer.model";
 import Interaction from "@/database/interaction.model";
+import { FilterQuery } from "mongoose";
 
 export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
+
+    const { searchQuery } = params;
+    const query: FilterQuery<typeof Question> = {}
+
+    if(searchQuery) {
+      query.$or = [
+        {title: {$regex: new RegExp(searchQuery, "i")}},
+        {content: {$regex: new RegExp(searchQuery, "i")}}
+      ]
+    }
+
     // why populate? MongoDB doesn't store the the tags itself but it stores the reference to those tags so we are populating the tag values
-    const questions = await Question.find({})
+    const questions = await Question.find({query})
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
       .sort({ createdAt: -1 });
