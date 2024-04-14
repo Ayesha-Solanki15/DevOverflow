@@ -15,7 +15,8 @@ export default async function Home({searchParams}: SearchParamsProps) {
   }
   const {questions} = await getSavedQuestions({
     clerkId: userId,
-    searchQuery: searchParams.q
+    searchQuery: searchParams.q,
+    filter: searchParams.filter
   })
   // we are going to fetch the saved questions from user.action.ts because a particular user is saving those questions
   return (

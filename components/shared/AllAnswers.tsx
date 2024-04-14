@@ -23,7 +23,11 @@ const AllAnswers = async ({
   page,
   filter,
 }: Props) => {
-  const result = await getAllAnswers({ questionId });
+  const result = await getAllAnswers({
+    questionId,
+    page: page ? +page : 1,
+    sortBy: filter,
+  });
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">

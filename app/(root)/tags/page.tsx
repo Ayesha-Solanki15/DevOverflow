@@ -7,9 +7,12 @@ import { SearchParamsProps } from "@/types";
 import Link from "next/link";
 import React from "react";
 
-const page = async ({searchParams}: SearchParamsProps) => {
-  const result = await getAllTags({ searchQuery: searchParams.q});
-  console.log(result.tags)
+const page = async ({ searchParams }: SearchParamsProps) => {
+  const result = await getAllTags({
+    searchQuery: searchParams.q,
+    filter: searchParams.filter,
+  });
+  console.log(result.tags);
 
   return (
     <>
@@ -46,7 +49,8 @@ const page = async ({searchParams}: SearchParamsProps) => {
                   <span className="body-semibold primary-text-gradient mr-2.5">
                     {/* it species how many questions are using this tag */}
                     {tag.questions.length}+
-                  </span> Questions
+                  </span>{" "}
+                  Questions
                 </p>
               </article>
             </Link>

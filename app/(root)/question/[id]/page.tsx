@@ -14,15 +14,15 @@ import React from "react";
 
 const page = async ({ params, searchParams }: any) => {
   // console.log(params.id)
-  
+
   const { userId: clerkId } = auth();
   let mongoUser;
-  
+
   if (clerkId) {
     mongoUser = await getUserById({ userId: clerkId });
   }
 
-  const result = await getQuestionById({ questionId: params.id });  
+  const result = await getQuestionById({ questionId: params.id });
 
   return (
     <>
@@ -45,15 +45,15 @@ const page = async ({ params, searchParams }: any) => {
           </Link>
           <div className="flex justify-end">
             {/* Todo: voting */}
-            <Votes 
-             type="Question"
-             itemId={JSON.stringify(result._id)}
-             userId={JSON.stringify(mongoUser._id)}
-             upvotes={result.upvotes.length}
-             hasUpvoted={result.upvotes.includes(mongoUser._id)}
-             downvotes={result.downvotes.length}
-             hasDownvoted={result.downvotes.includes(mongoUser._id)}
-             hasSaved={mongoUser?.saved.includes(result._id)}
+            <Votes
+              type="Question"
+              itemId={JSON.stringify(result._id)}
+              userId={JSON.stringify(mongoUser._id)}
+              upvotes={result.upvotes.length}
+              hasUpvoted={result.upvotes.includes(mongoUser._id)}
+              downvotes={result.downvotes.length}
+              hasDownvoted={result.downvotes.includes(mongoUser._id)}
+              hasSaved={mongoUser?.saved.includes(result._id)}
             />
           </div>
         </div>
@@ -98,10 +98,13 @@ const page = async ({ params, searchParams }: any) => {
         ))}
       </div>
 
+        {/*  TODO: have to fix the ui for filter */}
       <AllAnswers
         questionId={result._id}
         userId={mongoUser?._id}
         totalAnswers={result.answers.length}
+        page={searchParams?.page}
+        filter={searchParams?.filter}
       />
 
       <Answer
