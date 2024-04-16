@@ -43,7 +43,7 @@ export async function getAllAnswers(params: GetAnswersParams) {
 
     let sortOptions = {};
 
-    switch (filter) {
+    switch (sortBy) {
       case "highestUpvotes":
         sortOptions = { upvotes: -1 };
         break;

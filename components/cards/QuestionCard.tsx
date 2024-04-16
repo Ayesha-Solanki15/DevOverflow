@@ -1,34 +1,29 @@
 import Link from "next/link";
 import React from "react";
 import RenderTag from "../shared/Tags/RenderTag";
+import { IQuestion } from "@/database/question.model";
+import { ITag } from "@/database/tag.model";
+import { IAnswer } from "@/database/answer.model";
 import Metric from "../shared/Metric";
 import { formatAndDivideNumber, getTimestamp } from "@/lib/utils";
 import { SignedIn } from "@clerk/nextjs";
 import EditDeleteAction from "../shared/EditDeleteAction";
+import { IUser } from "@/database/user.model";
 
-interface Props {
-  _id: string;
+interface QuestionProps {
+  _id: IQuestion["_id"];
+  title: IQuestion["title"];
+  tags: ITag[];
+  author: IUser;
+  upvotes: IUser[];
+  downvotes: IUser[];
+  views: IQuestion["views"];
+  answers: IAnswer[];
+  createdAt: IQuestion["createdAt"];
   clerkId?: string | null;
-  title: string;
-  tags: {
-    _id: string;
-    name: string;
-  }[];
-  author: {
-    _id: string;
-    name: string;
-    picture: string;
-  };
-  upvotes: string[];
-  downvotes?: number;
-  views: number;
-  answers: Array<object>;
-  createdAt: Date;
 }
-
 const QuestionCard = ({
   _id,
-  clerkId,
   title,
   tags,
   author,
@@ -37,7 +32,8 @@ const QuestionCard = ({
   views,
   answers,
   createdAt,
-}: Props) => {
+  clerkId,
+}: QuestionProps) => {
   const showActionButtons = clerkId && clerkId === author._id;
 
   return (

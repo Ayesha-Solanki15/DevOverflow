@@ -6,11 +6,10 @@ import {
   downvoteQuestion,
   upvoteQuestion,
 } from "@/lib/actions/question.action";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { downvoteAnswer, upvoteAnswer } from "@/lib/actions/answer.action";
 import { toggleSaveQuestion } from "@/lib/actions/user.action";
-import { useRouter } from "next/router";
 import { viewQuestion } from "@/lib/actions/interaction.action";
 
 interface Props {
