@@ -1,6 +1,7 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import HomeFilters from "@/components/home/HomeFilters";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import Filter from "@/components/shared/filter/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
@@ -46,11 +47,12 @@ import Link from "next/link";
 //   },
 // ];
 
-export default async function Home({searchParams}: SearchParamsProps) {
-  const {questions} = await getQuestions({
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const { questions, isNext } = await getQuestions({
     searchQuery: searchParams.q,
-    filter: searchParams.filter
-  })
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
 
   // fetch recommended-> TODO
   return (
@@ -103,6 +105,12 @@ export default async function Home({searchParams}: SearchParamsProps) {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );

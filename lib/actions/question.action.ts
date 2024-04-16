@@ -21,41 +21,50 @@ export async function getQuestions(params: GetQuestionsParams) {
   try {
     connectToDatabase();
 
-    const { searchQuery, filter } = params;
-    const query: FilterQuery<typeof Question> = {}
+    const { searchQuery, filter, page = 1, pageSize = 20 } = params;
 
-    if(searchQuery) {
+    // calculate the no of posts to skip based on page and pagesize
+    const skipAmount = (page - 1) * pageSize;
+
+    const query: FilterQuery<typeof Question> = {};
+
+    if (searchQuery) {
       query.$or = [
-        {title: {$regex: new RegExp(searchQuery, "i")}},
-        {content: {$regex: new RegExp(searchQuery, "i")}}
-      ]
+        { title: { $regex: new RegExp(searchQuery, "i") } },
+        { content: { $regex: new RegExp(searchQuery, "i") } },
+      ];
     }
 
-    let sortOptions = {}
+    let sortOptions = {};
 
     switch (filter) {
       case "newest":
-        sortOptions = {createdAt: -1}
+        sortOptions = { createdAt: -1 };
         break;
       case "frequent":
-        sortOptions = {views: -1}
+        sortOptions = { views: -1 };
         break;
       case "unanswered":
-        query.answers = { $size: 0 }
+        query.answers = { $size: 0 };
         break;
       default:
-          break;
+        break;
     }
 
     // why populate? MongoDB doesn't store the the tags itself but it stores the reference to those tags so we are populating the tag values
-    const questions = await Question.find({query})
+    const questions = await Question.find({ query })
       .populate({ path: "tags", model: Tag })
       .populate({ path: "author", model: User })
+      .skip(skipAmount)
+      .limit(pageSize)
       .sort(sortOptions);
 
     // .sort is to get the newly added question at the top
 
-    return { questions };
+    const totalQuestions = await Question.countDocuments(query);
+    const isNext = totalQuestions > skipAmount + questions.length;
+
+    return { questions, isNext };
   } catch (error) {
     console.log(error);
     throw error;

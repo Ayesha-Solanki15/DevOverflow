@@ -1,5 +1,6 @@
 import QuestionCard from "@/components/cards/QuestionCard";
 import NoResult from "@/components/shared/NoResult";
+import Pagination from "@/components/shared/Pagination";
 import Filter from "@/components/shared/filter/Filter";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { QuestionFilters } from "@/constants/filters";
@@ -7,17 +8,17 @@ import { getSavedQuestions } from "@/lib/actions/user.action";
 import { SearchParamsProps } from "@/types";
 import { auth } from "@clerk/nextjs";
 
-export default async function Home({searchParams}: SearchParamsProps) {
-
-  const {userId} = auth()
-  if(!userId) {
-    return null
+export default async function Home({ searchParams }: SearchParamsProps) {
+  const { userId } = auth();
+  if (!userId) {
+    return null;
   }
-  const {questions} = await getSavedQuestions({
+  const { questions, isNext } = await getSavedQuestions({
     clerkId: userId,
     searchQuery: searchParams.q,
-    filter: searchParams.filter
-  })
+    filter: searchParams.filter,
+    page: searchParams.page ? +searchParams.page : 1,
+  });
   // we are going to fetch the saved questions from user.action.ts because a particular user is saving those questions
   return (
     <>
@@ -60,6 +61,12 @@ export default async function Home({searchParams}: SearchParamsProps) {
             linkTitle="Ask a Question"
           />
         )}
+      </div>
+      <div className="mt-10">
+        <Pagination
+          pageNumber={searchParams.page ? +searchParams.page : 1}
+          isNext={isNext}
+        />
       </div>
     </>
   );
