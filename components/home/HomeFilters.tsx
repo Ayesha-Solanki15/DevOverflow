@@ -8,11 +8,11 @@ import { formUrlQuery } from "@/lib/utils";
 const HomeFilters = () => {
   const searchParams = useSearchParams();
   const [active, setActive] = useState("");
-  const router = useRouter()
+  const router = useRouter();
 
   const handleTypeClick = (item: string) => {
     if (active === item) {
-      setActive("")
+      setActive("");
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: "filter",
@@ -20,7 +20,7 @@ const HomeFilters = () => {
       });
       router.push(newUrl, { scroll: false });
     } else {
-      setActive(item)
+      setActive(item);
       const newUrl = formUrlQuery({
         params: searchParams.toString(),
         key: "filter",

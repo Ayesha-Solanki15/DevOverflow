@@ -23,19 +23,21 @@ const Navbar = () => {
       </Link>
       <GlobalSearch />
       <div className="flex-between gap-5">
-        <Theme /> 
+        <Theme />
         <SignedIn>
-          <UserButton afterSignOutUrl="/" 
-          appearance={{
-            elements: {
-              avatarBox: 'h-10 w-10'
-            },
-            variables: {
-              colorPrimary: '#ff7000'
-            }
-          }}/>
+          <UserButton
+            afterSignOutUrl="/"
+            appearance={{
+              elements: {
+                avatarBox: "h-10 w-10",
+              },
+              variables: {
+                colorPrimary: "#ff7000",
+              },
+            }}
+          />
         </SignedIn>
-        <MobileNav /> 
+        <MobileNav />
       </div>
     </nav>
   );
