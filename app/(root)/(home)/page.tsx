@@ -9,6 +9,7 @@ import { HomePageFilters } from "@/constants/filters";
 import { getQuestions } from "@/lib/actions/question.action";
 import { SearchParamsProps } from "@/types";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 // const questions = [
 //   {
@@ -46,6 +47,10 @@ import Link from "next/link";
 //     createdAt: new Date("2021-09-02T10:00:00.000Z"),
 //   },
 // ];
+
+export const metadata: Metadata = {
+  title: 'Home | DevOverflow',
+}
 
 export default async function Home({ searchParams }: SearchParamsProps) {
   const { questions, isNext } = await getQuestions({

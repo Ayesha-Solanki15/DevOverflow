@@ -7,7 +7,12 @@ import Link from "next/link";
 import UserCard from "@/components/cards/UserCard";
 import { SearchParamsProps } from "@/types";
 import Pagination from "@/components/shared/Pagination";
+import { Metadata } from "next";
 // import Loading from "./loading";
+
+export const metadata: Metadata = {
+  title: 'Community | DevOverflow',
+}
 
 
 const Page = async ({searchParams}: SearchParamsProps) => {
