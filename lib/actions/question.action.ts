@@ -101,13 +101,21 @@ export async function createQuestion(params: CreateQuestionsParams) {
     });
 
     // create an interaction record for the user's ask_question action
+    await Interaction.create({
+      user: author,
+      action: "ask_question",
+      question: question._id,
+      tags: tagDocuments,
+    })
 
     // Increment author's reputation by +5 for creating a question
+    await User.findByIdAndUpdate(author, { $inc: { reputation: 5 } });
 
     // this revalidate path is of utmost significance because once we create a question, our code redirect us to home page and there we must see the newly created question post, and it could be done by either manually refreshing the page or by the below function.
     revalidatePath(path);
   } catch (error) {
     console.log(error);
+    throw error
   }
 }
 
@@ -159,7 +167,12 @@ export async function upvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
-    // Increment author's reputation  for upvoting a question
+    // Increment author's reputation  for upvoting a question by +1/-1 for upvoting/revoking an upvote to the question created by someone else
+    
+    await User.findByIdAndUpdate(userId, { $inc: { reputation: hasUpvoted ? -1 : 1 } })
+
+    // increment author's reputation by +10/-10 for receiving an upvote/downvote to the question
+    await User.findByIdAndUpdate(question.author, { $inc: { reputation: hasUpvoted ? -10 : 10 } });
 
     revalidatePath(path);
   } catch (error) {
@@ -196,7 +209,15 @@ export async function downvoteQuestion(params: QuestionVoteParams) {
       throw new Error("Question not found");
     }
 
-    // Increment author's reputation  for upvoting a question
+    // Increment author's reputation  for downvoting/revoking a downvote to another question
+    await User.findByIdAndUpdate(userId, {
+      $inc: { reputation: hasDownvoted ? -2 : 2 },
+    });
+    
+    // Increment author's reputation  for receiving a downvote for a question
+    await User.findByIdAndUpdate(question.author, {
+      $inc: { reputation: hasDownvoted ? -10 : 10 },
+    })
 
     revalidatePath(path);
   } catch (error) {
