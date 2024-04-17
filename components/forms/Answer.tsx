@@ -99,9 +99,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
           onClick={generateAIAnswer}
         >
           {isSubmittingAI ? (
-            <>
-            Generating...
-            </>
+            <>Generating...</>
           ) : (
             <>
               <Image
