@@ -18,6 +18,7 @@ import { Button } from "../ui/button";
 import Image from "next/image";
 import { createAnswer } from "@/lib/actions/answer.action";
 import { usePathname } from "next/navigation";
+import { toast } from "../ui/use-toast";
 
 interface Props {
   question: string;
@@ -53,8 +54,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent("");
       }
+      toast({
+        title: "Answer submitted successfully",
+        variant: "default",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Failed to submit answer",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -65,7 +74,7 @@ const Answer = ({ question, questionId, authorId }: Props) => {
     setIsSubmittingAI(true);
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/api/chatgpt`,
         {
           method: "POST",
           body: JSON.stringify({ question }),
@@ -79,10 +88,16 @@ const Answer = ({ question, questionId, authorId }: Props) => {
         const editor = editorRef.current as any;
         editor.setContent(formattedAnswer);
       }
-
-      // TODO: Toast...
+      toast({
+        title: "Generated AI answer",
+        variant: "default",
+      });
     } catch (error) {
       console.log(error);
+      toast({
+        title: "Failed to generate AI answer, try using chatgpt",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmittingAI(false);
     }
