@@ -310,7 +310,7 @@ export async function getRecommendedQuestions(params: RecommendedParams) {
       .populate("tags")
       .exec();
     // Extract tags from user's interactions
-    const userTags = userInteractions.reduce((tags, interaction) => {
+    const userTags = userInteractions.reduce((tags: any, interaction: any) => {
       if (interaction.tags) {
         tags = tags.concat(interaction.tags);
       }
