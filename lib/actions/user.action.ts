@@ -2,7 +2,7 @@
 
 import User from "@/database/user.model";
 import { connectToDatabase } from "../mongoose";
-import { FilterQuery, _FilterQuery } from "mongoose";
+import { FilterQuery } from "mongoose";
 import {
   CreateUserParams,
   DeleteUserParams,
