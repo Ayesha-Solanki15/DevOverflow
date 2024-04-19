@@ -102,7 +102,7 @@ export async function getAllUsers(params: GetAllUsersParams) {
 
     const skipAmount = (page - 1) * pageSize;
 
-    const query: _FilterQuery<typeof User> = {};
+    const query:FilterQuery<typeof User> = {};
 
     if (searchQuery) {
       query.$or = [
